@@ -22,12 +22,12 @@ pipeline {
                 sh "chmod +x changeTag.sh"
                 sh "./changeTag.sh ${DOCKER_TAG}"
                 sshagent(['kops-machine']) {
-                    sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml root@localhost:/var/lib/jenkins/k8_files"
+                    sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml root@localhost:/root"
                     script{
                         try{
-                            sh "ssh root@localhost kubectl apply -k /var/lib/jenkins/k8_files"
+                            sh "ssh root@localhost kubectl apply -f ."
                         }catch(error){
-                            sh "ssh root@localhost kubectl create -k /var/lib/jenkins/k8_files"
+                            sh "ssh root@localhost kubectl create -f ."
                         }
                     }
                 }
