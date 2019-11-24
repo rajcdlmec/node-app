@@ -25,9 +25,9 @@ pipeline {
                     sh "scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml root@localhost:/var/lib/jenkins/k8_files"
                     script{
                         try{
-                            sh "ssh root@localhost kubectl apply -f ."
+                            sh "ssh root@localhost kubectl apply -k /var/lib/jenkins/k8_files"
                         }catch(error){
-                            sh "ssh root@localhost kubectl create -f ."
+                            sh "ssh root@localhost kubectl create -k /var/lib/jenkins/k8_files"
                         }
                     }
                 }
